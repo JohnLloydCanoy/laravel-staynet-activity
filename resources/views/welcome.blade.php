@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>STAYNET</title>
-
+    <link rel="icon" type="image/png" href="{{ asset('images/logoscreen.png') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -1613,14 +1613,13 @@
                 </ul>
             </div>
 
-            
+
             <div class="bg-white flex-1 relative lg:-ml-px mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg overflow-hidden">
-    <img 
-        src="{{ asset('images/logoscreen.png') }}" 
-        alt="STAYNET Logo" 
-        class="w-full h-full object-cover"
-    />
-</div>
+                <img
+                    src="{{ asset('images/logoscreen.png') }}"
+                    alt="STAYNET Logo"
+                    class="w-full h-full object-cover" />
+            </div>
         </main>
     </div>
 
