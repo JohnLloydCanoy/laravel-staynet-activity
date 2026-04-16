@@ -16,4 +16,8 @@ class Customer extends Model
         'gender',
         'dob', // or 'date_of_birth' depending on your exact setup
     ];
+
+    public function loanTransactions() {
+    return $this->hasMany(LoanTransaction::class);
+}
 }
