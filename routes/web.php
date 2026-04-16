@@ -16,12 +16,17 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+    
+    // 1. ADD THE PDF ROUTE HERE (Before the resource route)
+    Route::get('/customers/export-pdf', [CustomerController::class, 'exportPDF'])->name('customers.pdf');
+    
+    // We replaced the single GET route with the full Resource route here:
+    Route::resource('customers', CustomerController::class);
+    
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-
 });
 
 require __DIR__.'/auth.php';
