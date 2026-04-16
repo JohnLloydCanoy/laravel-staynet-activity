@@ -15,9 +15,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('customer.index')" :active="request()->routeIs('customer.index')">
-                        {{ __('Customer') }}
-                    </x-nav-link>
+                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
+    {{ __('Customers') }}
+</x-nav-link>
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                         {{ __('Products') }}
                     </x-nav-link>
@@ -34,14 +34,13 @@
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div class="flex items-center gap-2">
-    <img 
-        class="h-7 w-7 rounded-full object-cover border border-gray-300 dark:border-gray-600" 
-        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0ea5e9&color=fff" 
-        alt="{{ Auth::user()->name }}'s Avatar"
-    />
+    @if(auth()->user()->avatar)
+        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" class="w-9 h-9 rounded-full object-cover" alt="User Avatar">
+    @else
+        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0ea5e9&color=fff" class="w-8 h-8 rounded-full object-cover" alt="Default Avatar">
+    @endif
     <span>{{ Auth::user()->name }}</span>
 </div>
-
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
