@@ -2,15 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LoanTransaction extends Model
 {
-    public function customer() {
-    return $this->belongsTo(Customer::class);
-}
+    use HasFactory;
 
-public function loan() {
-    return $this->belongsTo(Loan::class);
-}
+    // Add this line so Laravel allows saving these fields
+    protected $fillable = ['loan_id', 'customer_id', 'amount_paid', 'date_paid'];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function loan()
+    {
+        return $this->belongsTo(Loan::class);
+    }
 }
