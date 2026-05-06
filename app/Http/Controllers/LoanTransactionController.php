@@ -41,7 +41,19 @@ class LoanTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 1. Validate the incoming form data
+        $request->validate([
+            'customer_id' => 'required',
+            'loan_id' => 'required',
+            'amount_paid' => 'required|numeric',
+            'date_paid' => 'required|date',
+        ]);
+
+        // 2. Save the transaction to the database
+        \App\Models\LoanTransaction::create($request->all());
+
+        // 3. Redirect back to the transaction directory
+        return redirect()->route('loantransactions.index');
     }
 
     /**
