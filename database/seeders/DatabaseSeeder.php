@@ -16,14 +16,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(15)->create();
-
+        // 1. Create the ADMIN User
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'System Admin',
+            'email' => 'admin@example.com',
+            'role' => 'admin',
         ]);
 
-        // THIS IS THE MISSING LINE: Generate 20 fake customers
+        // 2. Create the STAFF User
+        User::factory()->create([
+            'name' => 'Staff Member',
+            'email' => 'staff@example.com',
+            'role' => 'staff',
+        ]);
+
+        // 3. Create the REGULAR User
+        User::factory()->create([
+            'name' => 'Regular User',
+            'email' => 'user@example.com',
+            'role' => 'user',
+        ]);
+
+        // Generate 15 random users (they will default to 'user' role)
+        User::factory(15)->create();
+
+        // Generate 20 fake customers
         Customer::factory(20)->create();
     }
 }
