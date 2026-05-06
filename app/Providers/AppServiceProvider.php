@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,7 +20,15 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-        //
-    }
+{
+    // Define Admin Access
+    Gate::define('admin-only', function (User $user) {
+        return $user->role === 'admin';
+    });
+
+    // Define Staff Access (Both Admin and Staff can enter)
+    Gate::define('staff-access', function (User $user) {
+        return in_array($user->role, ['admin', 'staff']);
+    });
+}
 }
