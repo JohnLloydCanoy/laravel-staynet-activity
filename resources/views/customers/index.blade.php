@@ -5,8 +5,11 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0">Customer Directory</h4>
         <div>
-            <a href="{{ route('customers.pdf') }}" class="btn btn-success me-2">Download PDF</a>
-            <a href="{{ route('customers.create') }}" class="btn btn-primary">Add New Customer</a>
+            <!-- RBAC: Only Admins can see the Add and Download PDF buttons -->
+            @if(auth()->user()->role === 'admin')
+                <a href="{{ route('customers.pdf') }}" class="btn btn-success me-2">Download PDF</a>
+                <a href="{{ route('customers.create') }}" class="btn btn-primary">Add New Customer</a>
+            @endif
         </div>
     </div>
     <div class="card-body">
@@ -25,7 +28,11 @@
                     <th>Address</th>
                     <th>Gender</th>
                     <th>Date of Birth</th>
-                    <th class="text-center">Actions</th>
+                    
+                    <!-- RBAC: Hide the entire Actions column header from regular users -->
+                    @if(in_array(auth()->user()->role, ['admin', 'staff']))
+                        <th class="text-center">Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -36,15 +43,25 @@
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->gender }}</td>
                     <td>{{ \Carbon\Carbon::parse($customer->dob ?? $customer->date_of_birth)->format('M d, Y') }}</td>
-                    <td class="text-center">
-                        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    
+                    <!-- RBAC: Hide the actions cell from regular users -->
+                    @if(in_array(auth()->user()->role, ['admin', 'staff']))
+                        <td class="text-center">
+                            
+                            <!-- Admins and Staff can Edit -->
+                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
-                        <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this customer?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
+                            <!-- ONLY Admins can Delete -->
+                            @if(auth()->user()->role === 'admin')
+                                <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this customer?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            @endif
+                            
+                        </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
