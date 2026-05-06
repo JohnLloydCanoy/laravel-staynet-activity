@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            
+            // THIS IS THE NEW LINE FOR ACTIVITY 14
+            $table->string('role')->default('user'); 
+            
             $table->rememberToken();
             $table->timestamps();
         });
