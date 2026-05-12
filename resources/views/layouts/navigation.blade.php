@@ -10,15 +10,18 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
+                    <!-- EVERYONE SEES DASHBOARD -->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    <!-- MOVED: EVERYONE SEES CUSTOMERS NOW (Activity 15) -->
+                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
+                        {{ __('Customers') }}
+                    </x-nav-link>
+
+                    <!-- ADMIN ONLY LINKS -->
                     @if(auth()->user()->role === 'admin')
-                        <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
-                            {{ __('Customers') }}
-                        </x-nav-link>
-                        
                         <x-nav-link :href="route('loantransactions.index')" :active="request()->routeIs('loantransactions.*')">
                             {{ __('Transactions') }}
                         </x-nav-link>
@@ -28,6 +31,7 @@
                         </x-nav-link>
                     @endif
 
+                    <!-- ADMIN & STAFF LINKS -->
                     @if(in_array(auth()->user()->role, ['admin', 'staff']))
                         <x-nav-link :href="route('loans.index')" :active="request()->routeIs('loans.*')">
                             {{ __('Loans') }}
@@ -90,16 +94,19 @@
         </div>
     </div>
 
+    <!-- RESPONSIVE MOBILE MENU -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
+            <!-- MOVED: EVERYONE SEES CUSTOMERS NOW (Activity 15) -->
+            <x-responsive-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
+                {{ __('Customers') }}
+            </x-responsive-nav-link>
+
             @if(auth()->user()->role === 'admin')
-                <x-responsive-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
-                    {{ __('Customers') }}
-                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('loantransactions.index')" :active="request()->routeIs('loantransactions.*')">
                     {{ __('Transactions') }}
                 </x-responsive-nav-link>
