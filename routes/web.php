@@ -26,12 +26,16 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // 2. ADMIN ONLY - Only users with the 'admin' role
-    // If you don't have a custom middleware yet, you can wrap them in a group 
-    // or check the role in the controller. For the script logic, we show them grouped:
+    // =========================================================
+    // ACTIVITY 15: FUNCTIONALITY RBAC
+    // Everyone can access the Customers routes. The Controller 
+    // now decides who can Add, Edit, or Delete based on role!
+    // =========================================================
+    Route::get('/customers/export-pdf', [CustomerController::class, 'exportPDF'])->name('customers.pdf');
+    Route::resource('customers', CustomerController::class);
+
+    // 2. ADMIN ONLY 
     Route::middleware(['can:admin-only'])->group(function () {
-        Route::get('/customers/export-pdf', [CustomerController::class, 'exportPDF'])->name('customers.pdf');
-        Route::resource('customers', CustomerController::class);
         Route::resource('loantransactions', LoanTransactionController::class);
         Route::get('/loantransactions/pdf', [LoanTransactionController::class, 'generatePDF'])->name('loantransactions.pdf');
     });
